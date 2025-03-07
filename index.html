@@ -133,6 +133,18 @@
                 console.error("Fetch Error:", error);
                 alert("Error: " + error);
             });
+
+                 // Disable all buttons
+    document.querySelectorAll("button").forEach(button => {
+        button.disabled = true;
+        button.style.backgroundColor = "#888"; // Gray out the button
+        button.style.cursor = "not-allowed";
+    });
+
+    // Disable color pickers
+    for (let i = 1; i <= 7; i++) {
+        pickers[i].off("color:change"); // Remove event listener to stop changes
+    }
         }
 
         function fetchResponses() {
