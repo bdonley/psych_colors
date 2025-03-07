@@ -77,6 +77,9 @@
         <p id="colorCode7">Selected Color: #000000</p>
         <button onclick="submitColors()">Submit</button>
     </div>
+<h2>Response Colors</h2>
+<div id="responseWheel"></div>
+<button onclick="fetchResponses()">Load Responses</button>
 
     <script>
         let colors = {}; // Store selected colors
@@ -131,6 +134,33 @@
                 alert("Error: " + error);
             });
         }
+
+        function fetchResponses() {
+    fetch("https://script.google.com/macros/s/AKfycbybXaRUKRE-RP0782-B87WNaP7WCqlNVSt3BV6k9wuEsGV7oZzQAV09BdlatlDyO08y/exec")
+    .then(response => response.json())
+    .then(data => {
+        console.log("Fetched Responses:", data);
+
+        let colorPicker = new iro.ColorPicker("#responseWheel", {
+            width: 300,
+            layout: [{ component: iro.ui.Wheel }]
+        });
+
+        // Add colors from responses to the color picker
+        data.forEach(entry => {
+            colorPicker.addColor(entry.olanzapine);
+            colorPicker.addColor(entry.risperidone);
+            colorPicker.addColor(entry.haloperidol);
+            colorPicker.addColor(entry.aripiprazole);
+            colorPicker.addColor(entry.depakote);
+            colorPicker.addColor(entry.lithium);
+            colorPicker.addColor(entry.clozapine);
+        });
+
+    })
+    .catch(error => console.error("Error fetching responses:", error));
+}
+
     </script>
 
 </body>
