@@ -115,7 +115,7 @@
             colors[7] = pickers[7].color.hexString;
             alert("Colors selected: " + JSON.stringify(colors));
 
-            fetch("https://script.google.com/macros/s/AKfycbzYwFw-VGrPayUSNL4PVdQjxLfctbak-qyJn46qCFg7RRCuIHqhx_hnP5aS3CUcR4F-/exec", {
+            fetch("https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbzYwFw-VGrPayUSNL4PVdQjxLfctbak-qyJn46qCFg7RRCuIHqhx_hnP5aS3CUcR4F-/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(colors)
