@@ -7,7 +7,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #responseWheel { margin: 20px auto; }
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
         .colorBox {
             display: inline-block;
             width: 50px;
@@ -20,10 +25,37 @@
 </head>
 <body>
 
-    <h2>Survey Results</h2>
+    <h1>Survey Results</h1>
     <button onclick="fetchResponses()">Load Results</button>
-    <div id="responseWheel"></div>
-    <div id="colorList"></div>
+
+    <div class="wheel-container">
+        <h2>Olanzapine</h2>
+        <div id="olanzapineWheel"></div>
+    </div>
+    <div class="wheel-container">
+        <h2>Risperidone</h2>
+        <div id="risperidoneWheel"></div>
+    </div>
+    <div class="wheel-container">
+        <h2>Haloperidol</h2>
+        <div id="haloperidolWheel"></div>
+    </div>
+    <div class="wheel-container">
+        <h2>Aripiprazole</h2>
+        <div id="aripiprazoleWheel"></div>
+    </div>
+    <div class="wheel-container">
+        <h2>Depakote</h2>
+        <div id="depakoteWheel"></div>
+    </div>
+    <div class="wheel-container">
+        <h2>Lithium</h2>
+        <div id="lithiumWheel"></div>
+    </div>
+    <div class="wheel-container">
+        <h2>Clozapine</h2>
+        <div id="clozapineWheel"></div>
+    </div>
 
     <script>
         function fetchResponses() {
@@ -32,30 +64,26 @@
             .then(data => {
                 console.log("Fetched Responses:", data);
 
-                let colorPicker = new iro.ColorPicker("#responseWheel", {
-                    width: 300,
-                    layout: [{ component: iro.ui.Wheel }]
-                });
+                // Create separate color pickers for each medication
+                let wheels = {
+                    olanzapine: new iro.ColorPicker("#olanzapineWheel", { width: 300, layout: [{ component: iro.ui.Wheel }] }),
+                    risperidone: new iro.ColorPicker("#risperidoneWheel", { width: 300, layout: [{ component: iro.ui.Wheel }] }),
+                    haloperidol: new iro.ColorPicker("#haloperidolWheel", { width: 300, layout: [{ component: iro.ui.Wheel }] }),
+                    aripiprazole: new iro.ColorPicker("#aripiprazoleWheel", { width: 300, layout: [{ component: iro.ui.Wheel }] }),
+                    depakote: new iro.ColorPicker("#depakoteWheel", { width: 300, layout: [{ component: iro.ui.Wheel }] }),
+                    lithium: new iro.ColorPicker("#lithiumWheel", { width: 300, layout: [{ component: iro.ui.Wheel }] }),
+                    clozapine: new iro.ColorPicker("#clozapineWheel", { width: 300, layout: [{ component: iro.ui.Wheel }] })
+                };
 
-                let colorList = document.getElementById("colorList");
-                colorList.innerHTML = "";  // Clear previous results
-
-                // Loop through each response and add colors to the wheel
+                // Loop through responses and add each color to the correct wheel
                 data.forEach(entry => {
-                    let colors = [
-                        entry.olanzapine, entry.risperidone, entry.haloperidol,
-                        entry.aripiprazole, entry.depakote, entry.lithium, entry.clozapine
-                    ];
-                    
-                    colors.forEach(color => {
-                        if (color) {
-                            colorPicker.addColor(color);
-                            let colorBox = document.createElement("div");
-                            colorBox.className = "colorBox";
-                            colorBox.style.backgroundColor = color;
-                            colorList.appendChild(colorBox);
-                        }
-                    });
+                    if (entry.olanzapine) wheels.olanzapine.addColor(entry.olanzapine);
+                    if (entry.risperidone) wheels.risperidone.addColor(entry.risperidone);
+                    if (entry.haloperidol) wheels.haloperidol.addColor(entry.haloperidol);
+                    if (entry.aripiprazole) wheels.aripiprazole.addColor(entry.aripiprazole);
+                    if (entry.depakote) wheels.depakote.addColor(entry.depakote);
+                    if (entry.lithium) wheels.lithium.addColor(entry.lithium);
+                    if (entry.clozapine) wheels.clozapine.addColor(entry.clozapine);
                 });
 
             })
