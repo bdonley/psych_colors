@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #responseWheel { margin: 20px auto; }
+        .colorBox {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border-radius: 50%;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Survey Results</h2>
+    <button onclick="fetchResponses()">Load Results</button>
+    <div id="responseWheel"></div>
+    <div id="colorList"></div>
+
+    <script>
+        function fetchResponses() {
+            fetch("https://script.google.com/macros/s/AKfycbybXaRUKRE-RP0782-B87WNaP7WCqlNVSt3BV6k9wuEsGV7oZzQAV09BdlatlDyO08y/exec")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched Responses:", data);
+
+                let colorPicker = new iro.ColorPicker("#responseWheel", {
+                    width: 300,
+                    layout: [{ component: iro.ui.Wheel }]
+                });
+
+                let colorList = document.getElementById("colorList");
+                colorList.innerHTML = "";  // Clear previous results
+
+                // Loop through each response and add colors to the wheel
+                data.forEach(entry => {
+                    let colors = [
+                        entry.olanzapine, entry.risperidone, entry.haloperidol,
+                        entry.aripiprazole, entry.depakote, entry.lithium, entry.clozapine
+                    ];
+                    
+                    colors.forEach(color => {
+                        if (color) {
+                            colorPicker.addColor(color);
+                            let colorBox = document.createElement("div");
+                            colorBox.className = "colorBox";
+                            colorBox.style.backgroundColor = color;
+                            colorList.appendChild(colorBox);
+                        }
+                    });
+                });
+
+            })
+            .catch(error => console.error("Error fetching responses:", error));
+        }
+    </script>
+
+</body>
+</html>
