@@ -115,7 +115,7 @@
             colors[7] = pickers[7].color.hexString;
             alert("Colors selected: " + JSON.stringify(colors));
 
-            fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", {
+            fetch("https://script.google.com/macros/s/AKfycbwTLNSDDVuueVRFApuVg0pvj_7lpPTrZOOOzitHFuiusk3E2uvV_L1izz5DRdVMklTr/exec", {
                 method: "POST",
                 mode: "no-cors",  // Allows request without CORS issues
                 headers: { "Content-Type": "application/json" },
